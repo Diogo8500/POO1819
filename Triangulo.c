@@ -24,14 +24,6 @@ float distPoints(Point a, Point b){
 	return sqrt(xDif*xDif + yDif*yDif);
 }
 
-float getX(Point a){
-	return a.x;
-}
-
-float getY(Point a){
-	return a.y;
-}
-
 int nextComb(int comb[], int k, int n) {
     int i = k - 1;
     ++comb[i];
