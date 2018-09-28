@@ -104,23 +104,23 @@ int main(void) {
 				  /* Neste ponto do programa n1 <= n2 */
 				  if (n2.x <= n3.x)
 				    { /* n1 <= n2 e n2 <= n3 */
-					  printf("%.0f %.0f\n", getX(n1), getY(n1));
-					  printf("%.0f %.0f\n", getX(n2), getY(n2));
-					  printf("%.0f %.0f\n", getX(n3), getY(n3));
+					  printf("%.0f %.0f\n", n1.x, n1.y);
+					  printf("%.0f %.0f\n", n2.x, n2.y);
+					  printf("%.0f %.0f\n", n3.x, n3.y);
 				    }
 				  else
 				    { /* n1 <= n2 e n3 < n2 */
 				      if (n1.x <= n3.x)
 					{ /* n1 <= n3 e n3 < n2 */
-				    	  printf("%.0f %.0f\n", getX(n1), getY(n1));
-				    	  printf("%.0f %.0f\n", getX(n3), getY(n3));
-				    	  printf("%.0f %.0f\n", getX(n2), getY(n2));
+				    	  printf("%.0f %.0f\n", n1.x, n1.y);
+					  printf("%.0f %.0f\n", n3.x, n3.y);
+					  printf("%.0f %.0f\n", n2.x, n2.y);
 					}
 				      else
 					{ /* n3 < n1 e n1 <= n2 */
-				    	  printf("%.0f %.0f\n", getX(n3), getY(n3));
-				    	  printf("%.0f %.0f\n", getX(n2), getY(n2));
-				    	  printf("%.0f %.0f\n", getX(n1), getY(n1));
+				    	  printf("%.0f %.0f\n", n3.x, n3.y);
+					  printf("%.0f %.0f\n", n2.x, n2.y);
+					  printf("%.0f %.0f\n", n1.x, n1.y);
 					}
 				    }
 				  return 0;
