@@ -35,7 +35,7 @@ public class TriangleClient {
 	//Math.sqrt() e um bom exemplo de um metodo estatico
 	//[ Ax * (By - Cy) + Bx * (Cy - Ay) + Cx * (Ay - By) ] / 2 = Area do triangulo
 	private static final double getAreaFromPoints(Point _a, Point _b, Point _c) {
-		return (_a.getX() * (_b.getY() - _c.getY()) + _b.getX() * (_c.getY() - _a.getY())  + _c.getX() * (_a.getY() - _b.getY())) / 2;
+		return Math.abs(_a.getX() * (_b.getY() - _c.getY()) + _b.getX() * (_c.getY() - _a.getY()) + _c.getX() * (_a.getY() - _b.getY())) / 2;
 	}
 	
 	public final void readInput() {
