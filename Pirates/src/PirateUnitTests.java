@@ -28,4 +28,16 @@ public class PirateUnitTests {
 		p = new PirateSolver("14115123");
 		assertEquals(p.solution(), 12);
 	}
+	
+	@Test (expected=CloneNotSupportedException.class)
+	public void testCloneNotSupportedException() throws CloneNotSupportedException {
+		PirateSolver b1 = new PirateSolver("3151");
+		PirateSolver b2 = (PirateSolver) b1.clone();
+	}
+	
+	@Test (timeout=3000)
+	public void testEficientSolve() {
+		PirateSolver p = new PirateSolver("4444");
+		assertEquals(p.solution(), 5851);
+	}
 }
