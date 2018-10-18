@@ -29,11 +29,7 @@ public class PirateSolver {
 	
 	public boolean throwOverBoardWithStep(int n) {
 		int num = noEnemies;
-		List<Character> pirateListAux= new ArrayList<Character>(pirateList.size());
-		
-		for(int i=0; i<pirateList.size(); i++) {
-			pirateListAux.add(pirateList.get(i));
-		}
+		List<Character> pirateListAux= new ArrayList<Character>(pirateList);
 		
 		for(int i=n-1; num > 0; i+=n-1) {
 			while(i >= pirateListAux.size()) {
@@ -50,5 +46,10 @@ public class PirateSolver {
 	public int solution() {
 		for(int i=1;;i++) 
 			if(!throwOverBoardWithStep(i)) return i;
+	}
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+	    return super.clone();
 	}
 }
