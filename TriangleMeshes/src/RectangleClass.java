@@ -1,0 +1,15 @@
+
+public class RectangleClass extends ParallelogramClass implements Rectangle {
+
+	public RectangleClass(Point _a, Point _b, Point _c, Point _d) throws IllegalArgumentException {
+		super(_a, _b, _c, _d);
+		if(!((_b.getX() - _a.getX()) * (_b.getX() - _c.getX()) + (_b.getY() - _a.getY()) * (_b.getY() - _c.getY()) == 0 && (_d.getX() - _c.getX()) * (_d.getX() - _a.getX()) + (_d.getY() - _c.getY()) * (_d.getY() - _a.getY()) == 0))
+			throw new IllegalArgumentException("Is not a rectangle");
+	}
+	
+	@Override
+	public String toString() {
+		return "Rectangle";
+	}
+
+}
