@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +49,10 @@ public abstract class PoligonClass implements Poligon {
 		for(int i=0; i<vertexes.size(); i++) 
 			if(vertexes.get(i).compareTo(_p) == 0)
 				return false;
-		if(_p.isCollinear(vertexes.get((_index-1)%vertexes.size()), vertexes.get((_index+1)%vertexes.size())))
+		BigInteger indexNeighbour1 = new BigInteger(Integer.toString(_index-1));
+		BigInteger indexNeighbour2 = new BigInteger(Integer.toString(_index+1));
+		BigInteger vertexesSize = new BigInteger(Integer.toString(vertexes.size()));
+		if(_p.isCollinear(vertexes.get(indexNeighbour1.mod(vertexesSize).intValue()), vertexes.get(indexNeighbour2.mod(vertexesSize).intValue())))
 			return false;
 		return true;
 	}

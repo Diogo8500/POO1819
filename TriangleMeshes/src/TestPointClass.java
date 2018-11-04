@@ -4,10 +4,10 @@ import org.junit.Test;
 
 public class TestPointClass {
 
-	@Test  (expected=IllegalArgumentException.class)
-	public void testConstructor() throws IllegalArgumentException {
+	@Test  
+	public void testConstructor() {
 		assertNotNull(new PointClass(2,4));
-		Point p1 = new PointClass(-1,2);
+		assertNotNull(new PointClass(-1,2));
 	}
 	
 	@Test
@@ -17,20 +17,22 @@ public class TestPointClass {
 		assertEquals(p1.getY(),9,0);
 	}
 	
-	@Test  (expected=IllegalArgumentException.class)
-	public void testSetX() throws IllegalArgumentException {
+	@Test
+	public void testSetX() {
 		Point p1 = new PointClass(2,2);
 		p1.setX(1);
 		assertEquals(p1.getX(),1,0);
 		p1.setX(-1);
+		assertEquals(p1.getX(),-1,0);
 	}
 	
-	@Test  (expected=IllegalArgumentException.class)
-	public void testSetY() throws IllegalArgumentException {
+	@Test
+	public void testSetY() {
 		Point p1 = new PointClass(2,2);
 		p1.setY(5);
 		assertEquals(p1.getY(),5,0);
-		p1.setX(-10);
+		p1.setY(-10);
+		assertEquals(p1.getY(),-10,0);
 	}
 
 	@Test
