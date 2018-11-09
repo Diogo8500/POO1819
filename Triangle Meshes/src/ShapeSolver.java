@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
+import java.util.TreeSet;
 
 public class ShapeSolver {
 	
@@ -15,6 +17,7 @@ public class ShapeSolver {
 	}
 	
 	public void solution(){
+		cleanCloud();
 		calculateHull();
 		cleanHull();
 		Polygon solution;
@@ -51,21 +54,26 @@ public class ShapeSolver {
 	
 	private void calculateHull(){
 		
-		Point aux= cloud.get(cloud.size() - 1);
-		cloud.set(cloud.size() - 1, cloud.get(0));
-		cloud.set(0, aux);
+		Collections.sort(cloud, (_a, _b) -> _a.getY() < _b.getY() ? -1 : _a.getY() == _b.getY() ? 0 : 1);
 		Collections.sort(cloud, (_a, _b) -> cloud.get(0).getCoTan(_a) < cloud.get(0).getCoTan(_b) ? -1 : cloud.get(0).getCoTan(_a) == cloud.get(0).getCoTan(_b) ? 0 : 1);
-		
+
 		hull.push(cloud.get(0));
 		hull.push(cloud.get(1));
 		hull.push(cloud.get(2));
 		
 		for (int i=3; i<cloud.size(); i++) {
-			while(ccw(hull.get(hull.size() - 2), hull.get(hull.size() - 1), cloud.get(i)) <= 0) {
+			while(ccw(hull.get(hull.size() - 2), hull.get(hull.size() - 1), cloud.get(i)) < 0) {
 				hull.pop();
 			}
 			hull.push(cloud.get(i));
 		}
+	}
+	
+	private void cleanCloud() {
+		Set<Point> newCloud = new TreeSet<Point>();
+		newCloud.addAll(cloud);
+		cloud.clear();
+		cloud.addAll(newCloud);
 	}
 	
 	private void cleanHull() {

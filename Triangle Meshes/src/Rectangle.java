@@ -2,7 +2,7 @@
  * Subclass of Parallelogram to represent a 2D rectangle.
  * It is defined by a set of four distinct vertexes arranged in
  * such a way opposite sides are parallel and all vertex angles
- * are 90º.
+ * are 90 degrees.
  * @see Parallelogram
  */
 public class Rectangle extends Parallelogram {

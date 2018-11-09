@@ -12,8 +12,8 @@ public class Main {
 			cloud.add(new Point(input.nextInt(), input.nextInt()));
 		}
 		ShapeSolver solver = new ShapeSolver(cloud);
-		solver.solution();
 		input.close();
+		solver.solution();
 	}
 
 }
