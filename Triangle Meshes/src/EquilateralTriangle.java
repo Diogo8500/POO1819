@@ -22,6 +22,7 @@ public class EquilateralTriangle extends Triangle {
 		super(_a, _b, _c);
 		if(!(_a.getDist(_b) == _b.getDist(_c) && _b.getDist(_c) == _c.getDist(_a)))
 			throw new IllegalArgumentException("Triangle is not equilateral");
+			
 	}
 
 	@Override

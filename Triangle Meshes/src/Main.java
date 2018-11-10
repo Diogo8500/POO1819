@@ -11,7 +11,7 @@ public class Main {
 		for (int i=0; i<num; i++) {
 			cloud.add(new Point(input.nextInt(), input.nextInt()));
 		}
-		ShapeSolver solver = new ShapeSolver(cloud);
+		Client solver = new Client(cloud);
 		input.close();
 		solver.solution();
 	}
