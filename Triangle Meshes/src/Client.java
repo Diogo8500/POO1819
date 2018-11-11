@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class Client {
 	
-	private ShapeSolver solver;;
+	private ShapeSolver solver;
 	
 	public Client(List<Point> _cloud) {
 		solver = new ShapeSolver(_cloud);

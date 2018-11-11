@@ -73,12 +73,13 @@ public class Point implements Comparable<Point> {
 	 * @return  The CoTangent between this and _p.
 	 */
 	public double getCoTan(Point _p) {
-		return - (_p.getX() - x) / (_p.getY() - y);
+		return (_p.getX() - x)/(_p.getY() - y);
 	}
 	
 	/**
 	 * Checks if the reference point is collinear with 2 others by calculating
-	 * the determinant.
+	 * the determinant, which happens to be the double of the signed area
+	 * formed by the 3 points.
 	 *
 	 * @param   _p1 The first point.
 	 * @param   _p2 the second point
@@ -95,8 +96,8 @@ public class Point implements Comparable<Point> {
 	 * This method overrides the method with the same name 
 	 * in Comparable. <p>
 	 * It defines the natural order of a point as follows:
-	 * Points with greater X coordinates are bigger. If the X coordinate
-	 * is equal, points with the greater Y coordinate are bigger.
+	 * Points with greater Y coordinates are bigger. If the Y coordinate
+	 * is equal, points with the greater X coordinate are bigger.
 	 * If both X and Y coordinates are equal the point is equal.
 	 *
 	 * @param   _p The point to be compared.
@@ -106,8 +107,8 @@ public class Point implements Comparable<Point> {
 	 */
 	@Override
 	public int compareTo(Point _p) {
-		if(x == _p.getX()) return y.compareTo(_p.getY());
-		if(x < _p.getX()) return -1;
+		if(y == _p.getY()) return x.compareTo(_p.getX());
+		if(y < _p.getY()) return -1;
 		return 1;
 	}
 	

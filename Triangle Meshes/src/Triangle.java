@@ -134,10 +134,7 @@ public class Triangle extends Polygon {
 	
 	@Override
 	public double getArea() {
-		double parc1 = a.getX() * (b.getY() - c.getY());
-		double parc2 = b.getX() * (c.getY() - a.getY());
-		double parc3 = c.getX() * (a.getY() - b.getY());
-		return Math.abs((parc1 + parc2 + parc3)/2d);
+		return Math.abs(a.isCcw(b, c)/2d);
 	}
 	
 	@Override

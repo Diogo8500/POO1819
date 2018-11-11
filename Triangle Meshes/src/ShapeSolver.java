@@ -1,4 +1,3 @@
-import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
@@ -91,10 +90,17 @@ public class ShapeSolver {
 	
 	/* Calculates the outer Points of the cloud and stores them on hull*/
 	private void calculateHull(){
+	    
+		Point indexZero = cloud.get(0); //Stores the first element of cloud (its the point with the lowest Y after cleaning the cloud)
 		
-		Collections.sort(cloud, (_a, _b) -> _a.getY() < _b.getY() ? -1 : _a.getY() == _b.getY() ? 0 : 1);
-		Collections.sort(cloud, (_a, _b) -> cloud.get(0).getCoTan(_a) < cloud.get(0).getCoTan(_b) ? -1 : cloud.get(0).getCoTan(_a) == cloud.get(0).getCoTan(_b) ? 0 : 1);
-
+		List<Point> cloudNoIndexZero = cloud.subList(1, cloud.size()); //Creates a sublist of cloud without the first element.
+																	   //This is to make sure the first element stays the first element
+																	   //during the next sort.
+		
+		cloudNoIndexZero.sort((_a, _b) -> indexZero.getCoTan(_a) > indexZero.getCoTan(_b) ? -1 : indexZero.getCoTan(_a) == indexZero.getCoTan(_b) ? 0 : 1);
+		//Sorts cloud by ascending angle between the point with the lowest Y
+		
+		//Graham Scan Algorithm 
 		hull.push(cloud.get(0));
 		hull.push(cloud.get(1));
 		hull.push(cloud.get(2));
