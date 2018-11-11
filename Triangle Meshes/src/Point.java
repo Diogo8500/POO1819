@@ -77,16 +77,17 @@ public class Point implements Comparable<Point> {
 	}
 	
 	/**
-	 * Checks if the reference point is collinear with 2 others.
+	 * Checks if the reference point is collinear with 2 others by calculating
+	 * the determinant.
 	 *
 	 * @param   _p1 The first point.
 	 * @param   _p2 the second point
-	 * @return  True if the reference point is collinear with the other 2.<p>False if they are not.
+	 * @return  less than 0 if the Points are oriented clockwise.
+	 * 			0 if they are collinear.
+	 * 			greater than 0 if they are oriented counterclockwise
 	 */
-	public boolean isCollinear(Point _p1, Point _p2) {
-		if(x * (_p1.getY() - _p2.getY()) + _p1.getX() * (_p2.getY() - y)  + _p2.getX() * (y - _p1.getY()) == 0)
-			return true;
-		return false;	
+	public double isCcw(Point _p1, Point _p2) {
+		return (_p1.getX() - x)*(_p2.getY() - y) - (_p1.getY() - y)*(_p2.getX() - x);
 	}
 	
 	/**

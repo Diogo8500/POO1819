@@ -2,9 +2,9 @@
  * Subclass of Polygon to represent a 2D convex quadrilateral.
  * It is defined by a set of four distinct vertexes.
  * 
- * @see PolygonClass
+ * @see Polygon
  */
-public class Quadrilateral extends PolygonClass {
+public class Quadrilateral extends Polygon {
 
 	private Point a, b, c, d;
 	
@@ -18,7 +18,7 @@ public class Quadrilateral extends PolygonClass {
 	 *         quadrilateral.
 	 */
 	public Quadrilateral(Point _a, Point _b, Point _c, Point _d) {
-		if(_a.isCollinear(_b, _c) || _a.isCollinear(_c, _d))
+		if(_a.isCcw(_b, _c) == 0 || _a.isCcw(_c, _d) == 0)
 			throw new IllegalArgumentException("Points are collinear.");
 		a = _a;
 		b = _b;
@@ -33,7 +33,7 @@ public class Quadrilateral extends PolygonClass {
 	 *         quadrilateral.
 	 */
 	public void setVertexA(Point _a) {
-		if(_a.isCollinear(b, c) || _a.isCollinear(c, d))
+		if(_a.isCcw(b, c) == 0 || _a.isCcw(c, d) == 0)
 			throw new IllegalArgumentException("Points are collinear.");
 		a = _a;
 	}
@@ -45,7 +45,7 @@ public class Quadrilateral extends PolygonClass {
 	 *         quadrilateral.
 	 */
 	public void setVertexB(Point _b) {
-		if(_b.isCollinear(c, d) || _b.isCollinear(d, a))
+		if(_b.isCcw(c, d) == 0 || _b.isCcw(d, a) == 0)
 			throw new IllegalArgumentException("Points are collinear.");
 		b = _b;
 	}
@@ -57,7 +57,7 @@ public class Quadrilateral extends PolygonClass {
 	 *         quadrilateral.
 	 */
 	public void setVertexC(Point _c) {
-		if(_c.isCollinear(d, a) || _c.isCollinear(a, b))
+		if(_c.isCcw(d, a) == 0 || _c.isCcw(a, b) == 0)
 			throw new IllegalArgumentException("Points are collinear.");
 		c = _c;
 	}
@@ -69,7 +69,7 @@ public class Quadrilateral extends PolygonClass {
 	 *         quadrilateral.
 	 */
 	public void setVertexD(Point _d) {
-		if(_d.isCollinear(a, b) || _d.isCollinear(b, c))
+		if(_d.isCcw(a, b) == 0 || _d.isCcw(b, c) == 0)
 			throw new IllegalArgumentException("Points are collinear.");
 		d = _d;
 	}

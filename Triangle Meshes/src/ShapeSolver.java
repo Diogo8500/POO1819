@@ -100,7 +100,7 @@ public class ShapeSolver {
 		hull.push(cloud.get(2));
 		
 		for (int i=3; i<cloud.size(); i++) {
-			while(ccw(hull.get(hull.size() - 2), hull.get(hull.size() - 1), cloud.get(i)) < 0) {
+			while(hull.get(hull.size()-2).isCcw(hull.get(hull.size()-1), cloud.get(i)) < 0) {
 				hull.pop();
 			}
 			hull.push(cloud.get(i));
@@ -110,17 +110,10 @@ public class ShapeSolver {
 	/* Removes the Points of the hull that are not vertices (aka are collinear)*/
 	private void cleanHull() {
 		for(int i=2; i<=hull.size(); i++) {
-			if(hull.get(i%hull.size()).isCollinear(hull.get(i - 1), hull.get(i - 2))) {
+			if(hull.get(i%hull.size()).isCcw(hull.get(i - 1), hull.get(i - 2)) == 0) {
 				hull.remove(i - 1);
 				i--;
 			}
 		}
-	}
-	
-	/* Returns <0 if the Points are oriented clockwise
-	 * Returns 0 if they are collinear
-	 * Returns >0 if they are oriented countercockwise*/
-	private double ccw(Point _a, Point _b, Point _c) {
-		return (_b.getX() - _a.getX())*(_c.getY() - _a.getY()) - (_b.getY() - _a.getY())*(_c.getX() - _a.getX());
 	}
 }

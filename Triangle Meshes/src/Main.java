@@ -8,9 +8,8 @@ public class Main {
 		List<Point> cloud = new ArrayList<Point>();
 		Scanner input = new Scanner(System.in);
 		int num = input.nextInt();
-		for (int i=0; i<num; i++) {
+		for (int i=0; i<num; i++)
 			cloud.add(new Point(input.nextInt(), input.nextInt()));
-		}
 		input.close();
 		Client solver = new Client(cloud);
 		solver.solution();

@@ -6,11 +6,11 @@
 	 * It's also possible to get each vertex independently as Point
 	 * objects.
 	 * <p>
-	 * This class is a subclass of PolygonClass.
+	 * This class is a subclass of Polygon.
 	 * 
-	 * @see PolygonClass
+	 * @see Polygon
 	 */
-public class Triangle extends PolygonClass {
+public class Triangle extends Polygon {
 	
 	private Point a, b, c;
 
@@ -24,7 +24,7 @@ public class Triangle extends PolygonClass {
 	 * * @return  A new TriangleClass object.
 	 */
 	public Triangle(Point _a, Point _b, Point _c) {
-		if(_a.isCollinear(_b, _c))
+		if(_a.isCcw(_b, _c) == 0)
 			throw new IllegalArgumentException("Vertexes are collinear.");
 		a = _a;
 		b = _b;
@@ -39,7 +39,7 @@ public class Triangle extends PolygonClass {
 	 *          not form a triangle.
 	 */
 	public void setVertexA(Point _a) {
-		if(_a.isCollinear(b, c))
+		if(_a.isCcw(b, c) == 0)
 			throw new IllegalArgumentException("Vertexes are collinear.");
 		a = _a;
 	}
@@ -52,7 +52,7 @@ public class Triangle extends PolygonClass {
 	 *          not form a triangle.
 	 */
 	public void setVertexB(Point _b) {
-		if(_b.isCollinear(a, c))
+		if(_b.isCcw(a, c) == 0)
 			throw new IllegalArgumentException("Vertexes are collinear.");
 		b = _b;
 	}
@@ -65,7 +65,7 @@ public class Triangle extends PolygonClass {
 	 *          not form a triangle.
 	 */
 	public void setVertexC(Point _c) {
-		if(_c.isCollinear(a, b))
+		if(_c.isCcw(a, b) == 0)
 			throw new IllegalArgumentException("Vertexes are collinear.");
 		c = _c;
 	}
