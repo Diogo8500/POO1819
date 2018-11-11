@@ -18,6 +18,11 @@ public interface Polygon {
 	 */
 	public double getArea();
 	
+	/**
+	 * Returns a string containing the name of this Polygon.
+	 * 
+	 * @return Name of Polygon.
+	 */
 	@Override
 	public String toString();
 }

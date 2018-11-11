@@ -111,7 +111,7 @@ public class Triangle extends PolygonClass {
 	 * Returns the length of the side BC of this triangle.
 	 * In other words, returns the distance between vertex B and C.
 	 *
-	 * @return  The lenght of BC.
+	 * @return  The length of BC.
 	 */
 	public double getLengthBC() {
 		return getVertexB().getDist(getVertexC());
@@ -121,7 +121,7 @@ public class Triangle extends PolygonClass {
 	 * Returns the length of the side CA of this triangle.
 	 * In other words, returns the distance between vertex C and A.
 	 *
-	 * @return  The lenght of CA.
+	 * @return  The length of CA.
 	 */
 	public double getLengthCA() {
 		return getVertexC().getDist(getVertexA());

@@ -11,8 +11,8 @@ public class Main {
 		for (int i=0; i<num; i++) {
 			cloud.add(new Point(input.nextInt(), input.nextInt()));
 		}
-		Client solver = new Client(cloud);
 		input.close();
+		Client solver = new Client(cloud);
 		solver.solution();
 	}
 

@@ -1,7 +1,6 @@
 /**
- * Subclass of Polygon to represent a 2D quadrilateral.
+ * Subclass of Polygon to represent a 2D convex quadrilateral.
  * It is defined by a set of four distinct vertexes.
- * It allows for both convex and concave quadrilaterals.
  * 
  * @see PolygonClass
  */
