@@ -17,5 +17,6 @@ public class Client {
 		Polygon shape = solver.getShape();
 		System.out.println(shape.toString() + " " + (int)shape.getPerimetre());
 	}
+
 	
 }
