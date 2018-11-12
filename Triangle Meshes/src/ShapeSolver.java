@@ -49,28 +49,22 @@ public class ShapeSolver {
 			Point b = hull.get(1);
 			Point c = hull.get(2);
 			
-			try {
+			shape = new Triangle(a, b, c);
+			if(shape.isMoreSpecific())
 				shape = new EquilateralTriangle(a, b, c);
-			}catch(IllegalArgumentException _e) {
-				shape = new Triangle(a, b, c);
-			}
 		}else {
 			Point a = hull.get(0);
 			Point b = hull.get(1);
 			Point c = hull.get(2);
 			Point d = hull.get(3);
 			
-			try {
-				shape = new Square(a, b, c, d);
-			}catch(IllegalArgumentException _e) {
-				try {
+			shape = new Quadrilateral(a, b, c, d);
+			if(shape.isMoreSpecific()) {
+				shape = new Parallelogram(a, b, c, d);
+				if(shape.isMoreSpecific()) {
 					shape = new Rectangle(a, b, c, d);
-				}catch(IllegalArgumentException _f) {
-					try {
-						shape = new Parallelogram(a, b, c, d);
-					}catch(IllegalArgumentException _g) {
-						shape = new Quadrilateral(a, b, c, d);
-					}
+					if(shape.isMoreSpecific())
+						shape = new Square(a, b, c, d);
 				}
 			}
 		}
@@ -98,7 +92,7 @@ public class ShapeSolver {
 																	   //during the next sort.
 		
 		cloudNoIndexZero.sort((_a, _b) -> indexZero.getCoTan(_a) > indexZero.getCoTan(_b) ? -1 : indexZero.getCoTan(_a) == indexZero.getCoTan(_b) ? 0 : 1);
-		//Sorts cloud by ascending angle between the point with the lowest Y
+		//Sorts cloud by ascending polar angle between the point with the lowest Y
 		
 		//Graham Scan Algorithm 
 		hull.push(cloud.get(0));

@@ -18,8 +18,31 @@ public class Parallelogram extends Quadrilateral {
 	 */
 	public Parallelogram(Point _a, Point _b, Point _c, Point _d) {
 		super(_a, _b, _c, _d);
-		if(!(_b.getX() - _a.getX() == _c.getX() - _d.getX() && _b.getY() - _a.getY() == _c.getY() - _d.getY()))
+		if(!super.isMoreSpecific())
 			throw new IllegalArgumentException("Points do not form a parallelogram.");
+	}
+	
+	/**
+	 * Checks whether this parallelogram is a rectangle.
+	 * @return True if it is, false is its not.
+	 */
+	@Override
+	public boolean isMoreSpecific() {
+		double xA = getVertexA().getX();
+		double yA = getVertexA().getY();
+		double xB = getVertexB().getX();
+		double yB = getVertexB().getY();
+		double xC = getVertexC().getX();
+		double yC = getVertexC().getY();
+		double xD = getVertexD().getX();
+		double yD = getVertexD().getY();
+		if((xB - xA) * (xB - xC) + 
+			(yB - yA) * (yB - yC) == 0 && 
+			(xD - xC) * (xD - xA) + 
+			(yD - yC) * (yD - yA) == 0) {
+			return true;
+		}
+		return false;
 	}
 	
 	@Override

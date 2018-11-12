@@ -18,7 +18,7 @@ public class Square extends Rectangle {
 	 */
 	public Square(Point _a, Point _b, Point _c, Point _d) {
 		super(_a, _b, _c, _d);
-		if(_a.getDist(_b) != _b.getDist(_c))
+		if(!super.isMoreSpecific())
 			throw new IllegalArgumentException("Is not a square.");
 	}
 	

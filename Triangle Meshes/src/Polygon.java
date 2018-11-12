@@ -21,6 +21,14 @@ public abstract class Polygon {
 	public abstract double getArea();
 	
 	/**
+	 * Checks whether this polygon can be more specific. For example,
+	 * checks if a parallelogram is a rectangle, etc.
+	 * 
+	 * @return True if yes, false if not.
+	 */
+	public abstract boolean isMoreSpecific();
+	
+	/**
 	 * Returns a string containing the name of this Polygon.
 	 * 
 	 * @return Name of Polygon.

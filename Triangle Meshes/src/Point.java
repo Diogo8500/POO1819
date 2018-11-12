@@ -7,7 +7,7 @@
  */
 public class Point implements Comparable<Point> {
 
-	private Double x, y;
+	private double x, y;
 	
 	/**
 	 * Creates a new PointClass object. 
@@ -107,7 +107,7 @@ public class Point implements Comparable<Point> {
 	 */
 	@Override
 	public int compareTo(Point _p) {
-		if(y == _p.getY()) return x.compareTo(_p.getX());
+		if(y == _p.getY()) return ((Double)x).compareTo(_p.getX());
 		if(y < _p.getY()) return -1;
 		return 1;
 	}

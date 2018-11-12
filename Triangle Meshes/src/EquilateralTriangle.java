@@ -20,9 +20,8 @@ public class EquilateralTriangle extends Triangle {
 	 */
 	public EquilateralTriangle(Point _a, Point _b, Point _c) {
 		super(_a, _b, _c);
-		if(!(_a.getDist(_b) == _b.getDist(_c) && _b.getDist(_c) == _c.getDist(_a)))
-			throw new IllegalArgumentException("Triangle is not equilateral");
-			
+		if(!super.isMoreSpecific())
+			throw new IllegalArgumentException("Triangle is not equilateral");	
 	}
 
 	@Override

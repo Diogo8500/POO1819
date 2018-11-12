@@ -137,6 +137,17 @@ public class Triangle extends Polygon {
 		return Math.abs(a.isCcw(b, c)/2d);
 	}
 	
+	/**
+	 * Checks whether this triangle is equilateral.
+	 * @return True if it is, false is its not.
+	 */
+	@Override
+	public boolean isMoreSpecific() {
+		if(a.getDist(b) == b.getDist(c) && b.getDist(c) == c.getDist(a))
+			return true;
+		return false;
+	}
+	
 	@Override
 	public String toString() {
 		return "Triangle";

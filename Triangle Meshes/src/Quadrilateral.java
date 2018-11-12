@@ -9,7 +9,8 @@ public class Quadrilateral extends Polygon {
 	private Point a, b, c, d;
 	
 	/**
-	 * Quadrilateral constructor.
+	 * Quadrilateral constructor. Arguments must be given either counterclockwise
+	 * or clockwise, otherwise an {@link IllegalArgumentException} is thrown
 	 * @param _a Vertex A
 	 * @param _b Vertex B
 	 * @param _c Vertex C
@@ -18,8 +19,13 @@ public class Quadrilateral extends Polygon {
 	 *         quadrilateral.
 	 */
 	public Quadrilateral(Point _a, Point _b, Point _c, Point _d) {
-		if(_a.isCcw(_b, _c) == 0 || _a.isCcw(_c, _d) == 0)
-			throw new IllegalArgumentException("Points are collinear.");
+		double angle1 = _a.isCcw(_b, _c);
+		double angle2 = _b.isCcw(_c, _d);
+		double angle3 = _c.isCcw(_d, _a);
+		double angle4 = _d.isCcw(_a, _b);
+		if(angle1 == 0 || angle2 == 0 || angle3 == 0 || angle4 == 0 || 
+		   !(Math.signum(angle1) == Math.signum(angle2) && Math.signum(angle2) == Math.signum(angle3) && Math.signum(angle3) == Math.signum(angle4)))
+			throw new IllegalArgumentException("Points do not define a quadrilateral.");
 		a = _a;
 		b = _b;
 		c = _c;
@@ -158,6 +164,18 @@ public class Quadrilateral extends Polygon {
 		
 		double crossPQ = vectorP.getX() * vectorQ.getY() - vectorP.getY() * vectorQ.getX();
 		return (1d/2d) * Math.abs(crossPQ);
+	}
+	
+	/**
+	 * Checks whether this quadrilateral is a parallelogram.
+	 * @return True if it is, false is its not.
+	 */
+	@Override
+	public boolean isMoreSpecific() {
+		if(b.getX() - a.getX() == c.getX() - d.getX() && b.getY() - a.getY() == c.getY() - d.getY()) {
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
