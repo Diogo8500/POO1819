@@ -1,5 +1,5 @@
 
-public class Position {
+public class Position implements Comparable<Position> {
 	private String column;
 	private int row;
 	
@@ -9,8 +9,8 @@ public class Position {
 	}
 	
 	public void setColumn(String _column) {
-		//if(!_column.matches("[A-Z]^$"))
-		//	throw new IllegalArgumentException();
+		if(!_column.matches("^[A-Z]+$"))
+			throw new IllegalArgumentException();
 		column = _column;
 	}
 	
@@ -37,4 +37,16 @@ public class Position {
 	public boolean equals(Object _o) {
 		return column.equals(((Position)_o).column()) && row == ((Position)_o).row();
 	}
+
+	@Override
+	public int compareTo(Position _o) {
+		if(row < _o.row()) return -1;
+		if(row == _o.row()) {
+			if(column.length() == _o.column().length()) return column.compareTo(_o.column());
+			if(column.length() < _o.column().length()) return -1;
+		}
+		return 1;
+	}
+	
+	
 }
