@@ -9,6 +9,14 @@ public class Cell implements Element {
 		element = _element;
 	}
 	
+	public Position position() {
+		return name;
+	}
+	
+	public void set(Element _e) {
+		element = _e;
+	}
+	
 	public Element element() {
 		return element;
 	}

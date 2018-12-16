@@ -1,5 +1,9 @@
+import java.io.Serializable;
+import java.util.Objects;
 
-public class Position implements Comparable<Position> {
+public final class Position implements Comparable<Position>, Serializable {
+	
+	private static final long serialVersionUID = -3121364638778528438L;
 	private String column;
 	private int row;
 	
@@ -8,13 +12,13 @@ public class Position implements Comparable<Position> {
 		setRow(_row);
 	}
 	
-	public void setColumn(String _column) {
+	private void setColumn(String _column) {
 		if(!_column.matches("^[A-Z]+$"))
 			throw new IllegalArgumentException();
 		column = _column;
 	}
 	
-	public void setRow(int _row) {
+	private void setRow(int _row) {
 		if(_row < 1)
 			throw new IllegalArgumentException();
 		row = _row;
@@ -34,6 +38,11 @@ public class Position implements Comparable<Position> {
 	}
 	
 	@Override
+	public int hashCode() {
+		return Objects.hash(column, row);
+	}
+	
+	@Override
 	public boolean equals(Object _o) {
 		return column.equals(((Position)_o).column()) && row == ((Position)_o).row();
 	}
@@ -47,6 +56,4 @@ public class Position implements Comparable<Position> {
 		}
 		return 1;
 	}
-	
-	
 }

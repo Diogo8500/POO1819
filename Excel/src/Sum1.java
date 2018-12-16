@@ -17,17 +17,17 @@ public class Sum1 extends Function {
 		BigDecimal result = new BigDecimal(0);
 		if(isNumeric(argument)) {
 			int row = Integer.parseInt(argument);
-			Iterator<Cell> rowIterator = sheet.rowIterator(row);
+			Iterator<Position> rowIterator = sheet.rowIterator(row);
 			while(rowIterator.hasNext()) {
-				Cell toAdd = rowIterator.next();
-				result = result.add(new BigDecimal(toAdd.value().toString()));
+				Position toAdd = rowIterator.next();
+				result = result.add(new BigDecimal(sheet.get(toAdd).value().toString()));
 			}
 		}else {
-			Iterator<Cell> columnIterator = sheet.columnIterator(argument);
-			Cell toAdd;
+			Iterator<Position> columnIterator = sheet.columnIterator(argument);
+			Position toAdd;
 			while(columnIterator.hasNext()) {
 				toAdd = columnIterator.next();
-				result = result.add(new BigDecimal(toAdd.value().toString()));
+				result = result.add(new BigDecimal(sheet.get(toAdd).value().toString()));
 			}
 		}
 		return result;

@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class Sheet<T> implements Serializable, Iterable<T> {
+public class Sheet<T> implements Serializable, Iterable<Position> {
 
 	private static final long serialVersionUID = -7511537596728391794L;
 	private HashMap<Position, Node<T>> sheet;
@@ -21,7 +21,7 @@ public class Sheet<T> implements Serializable, Iterable<T> {
 	
 	public void removeNode(Position _pos) {
 		for(Position p : sheet.get(_pos).using) 
-			sheet.get(p).usedBy.remove(_pos);
+			removeDependency(_pos, p);
 		sheet.remove(_pos);
 	}
 	
@@ -41,8 +41,10 @@ public class Sheet<T> implements Serializable, Iterable<T> {
 		return sheet.get(_pos).content;
 	}
 	
-	public Set<Position> positions(){
-		return sheet.keySet();
+	public List<Position> positions(){
+		ArrayList<Position> toReturn = new ArrayList<Position>(sheet.keySet());
+		toReturn.sort(null);
+		return toReturn;
 	}
 	
 	public boolean isDependent(Position _this, Position _that) {
@@ -60,76 +62,78 @@ public class Sheet<T> implements Serializable, Iterable<T> {
 		sheet.get(_usedBy).usedBy.remove(_using);
 	}
 	
+	public boolean isEmpty() {
+		return sheet.isEmpty();
+	}
+	
 	@Override
-	public Iterator<T> iterator() {
-		Iterator<T> it = new Iterator<T>() {
+	public Iterator<Position> iterator() {
+		Iterator<Position> it = new Iterator<Position>() {
 
 			private int current = 0;
-			private List<Position> cells = new ArrayList<Position>(sheet.keySet());
+			private List<Position> cells = positions();
 			
 			@Override
-			public boolean hasNext() {
-				if(current == 0) cells.sort(null);	
+			public boolean hasNext() {	
 				return current < cells.size();
 			}
 
 			@Override
-			public T next() {
-				return sheet.get(cells.get(current++)).content;
+			public Position next() {
+				return cells.get(current++);
 			}	
 		};
 		return it;
 	}
 
-	public Iterator<T> rowIterator(int row) {
+	public Iterator<Position> rowIterator(int row) {
 		
-		Iterator<T> it = new Iterator<T>() {
+		Iterator<Position> it = new Iterator<Position>() {
 
 			private int current = 0;
-			private List<Position> cells = new ArrayList<Position>(sheet.keySet());
+			private List<Position> cells = positions();
 			
 			@Override
 			public boolean hasNext() {
 				if(current == 0) 
 					for(int i=0; i<cells.size(); i++) 
-						if(cells.get(i).row() != row) cells.remove(i--);
-					cells.sort(null);	
+						if(cells.get(i).row() != row) cells.remove(i--);	
 				return current < cells.size();
 			}
 
 			@Override
-			public T next() {
-				return sheet.get(cells.get(current++)).content;
+			public Position next() {
+				return cells.get(current++);
 			}	
 		};
 		return it;
 	}
 
-	public Iterator<T> columnIterator(String column) {
-		Iterator<T> it = new Iterator<T>() {
+	public Iterator<Position> columnIterator(String column) {
+		Iterator<Position> it = new Iterator<Position>() {
 
 			private int current = 0;
-			private List<Position> cells = new ArrayList<Position>(sheet.keySet());
+			private List<Position> cells = positions();
 			
 			@Override
 			public boolean hasNext() {
 				if(current == 0) 
 					for(int i=0; i<cells.size(); i++) 
-						if(!cells.get(i).column().equals(column)) cells.remove(i--);
-					cells.sort(null);	
+						if(!cells.get(i).column().equals(column)) cells.remove(i--);	
 				return current < cells.size();
 			}
 
 			@Override
-			public T next() {
-				return sheet.get(cells.get(current++)).content;
+			public Position next() {
+				return cells.get(current++);
 			}	
 		};
 		return it;
 	}
 	
-	@SuppressWarnings("hiding")
-	private static class Node<T> {
+	private static class Node<T> implements Serializable {
+		
+		private static final long serialVersionUID = 897602335282088302L;
 		T content;
 		Set<Position> using, usedBy;
 		
