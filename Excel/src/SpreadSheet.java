@@ -58,7 +58,7 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 			Position actualPosition = it.next();
 			Cell actualCell = sheetMap.get(actualPosition);
 			actualCell.usedBy.remove(toRemovePosition);
-			if(actualCell.value().doubleValue() == 0 && actualCell.usedBy.isEmpty() && actualCell.using.isEmpty())
+			if(Double.parseDouble(actualCell.value()) == 0 && actualCell.usedBy.isEmpty() && actualCell.using.isEmpty())
 				sheetMap.remove(actualPosition);
 			it.remove();	
 		}
@@ -67,7 +67,7 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 			return 1;
 		}
 		else {
-			sheetMap.get(toRemovePosition).setContent(new Value(0));
+			sheetMap.get(toRemovePosition).setContent(new Value("0"));
 			return 0;
 		}	
 	}
@@ -130,7 +130,7 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 		}
 
 		@Override
-		public Number value() {
+		public String value() {
 			if(content instanceof CellReference)
 				return sheetMap.get(content).value();
 			else

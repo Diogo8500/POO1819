@@ -1,4 +1,4 @@
-import java.util.Objects;
+//import java.util.Objects;
 
 public class Position implements Comparable<Position> {
 	
@@ -29,7 +29,8 @@ public class Position implements Comparable<Position> {
 	public int row() {
 		return row;
 	}
-	@Override
+	
+	/*@Override
 	public int hashCode() {
 		return Objects.hash(column, row);
 	}
@@ -37,7 +38,7 @@ public class Position implements Comparable<Position> {
 	@Override
 	public boolean equals(Object _o) {
 		return this.hashCode() == _o.hashCode();
-	}
+	}*/
 	
 	@Override
 	public int compareTo(Position _o) {

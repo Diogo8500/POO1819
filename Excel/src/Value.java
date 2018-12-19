@@ -1,18 +1,19 @@
 import java.util.TreeSet;
 
 public final class Value implements Element {
-	private Number value;
+	private String value;
 	
-	public Value(Number _value) {
+	public Value(String _value) {
 		setValue(_value);
 	}
 	
-	private void setValue(Number _value) {
+	private void setValue(String _value) {
+		Double.parseDouble(_value);
 		value = _value;
 	}
 	
 	@Override
-	public Number value() {
+	public String value() {
 		return value;
 	}
 	

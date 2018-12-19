@@ -1,7 +1,7 @@
 import java.util.TreeSet;
 
 public interface Element {
-	Number value();
+	String value();
 	
 	TreeSet<Position> using();
 	

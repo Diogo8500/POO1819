@@ -4,7 +4,7 @@ import java.util.TreeSet;
 public abstract class Function implements Element {
 	
 	private ArrayList<Object> arguments = new ArrayList<Object>(1);
-	
+
 	public void set(Object... _arguments) {
 		for(Object o : _arguments)
 			arguments.add(o);
@@ -15,7 +15,7 @@ public abstract class Function implements Element {
 	}
 	
 	@Override
-	public abstract Number value();
+	public abstract String value();
 	
 	@Override
 	public abstract TreeSet<Position> using();	

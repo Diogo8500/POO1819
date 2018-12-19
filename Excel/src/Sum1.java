@@ -18,7 +18,7 @@ public final class Sum1 extends Function {
 		}
 		
 		@Override
-		public Number value() {
+		public String value() {
 			String argument = (String)arguments().get(0);
 			if(argument.matches("^[A-Z]+$"))
 				return calculateColumn(argument);
@@ -30,24 +30,24 @@ public final class Sum1 extends Function {
 			return "=SUM " + arguments().get(0);
 		}
 		
-		private Number calculateColumn(String _column) {
+		private String calculateColumn(String _column) {
 			BigDecimal result = new BigDecimal(0);
 			for(SpreadSheet.Cell c : sheet) 
 				if(c.position().column() == _column) {
-					BigDecimal toAdd = new BigDecimal(c.value().toString());
+					BigDecimal toAdd = new BigDecimal(c.value());
 					result = result.add(toAdd, new MathContext(Math.max(result.precision(), toAdd.precision())));
 				}
-			return result;
+			return result.toString();
 		}
 		
-		private Number calculateRow(int _row) {
+		private String calculateRow(int _row) {
 			BigDecimal result = new BigDecimal(0);
 			for(SpreadSheet.Cell c : sheet) 
 				if(c.position().row() == _row) {
-					BigDecimal toAdd = new BigDecimal(c.value().toString());
+					BigDecimal toAdd = new BigDecimal(c.value());
 					result = result.add(toAdd, new MathContext(Math.max(result.precision(), toAdd.precision())));
 				}
-			return result;
+			return result.toString();
 		}
 
 		@Override
