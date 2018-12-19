@@ -19,8 +19,7 @@ public final class Sum2 extends Function {
 	public Number value() {
 		BigDecimal arg1 = new BigDecimal(((Element)arguments().get(0)).value().toString());
 		BigDecimal arg2 = new BigDecimal(((Element)arguments().get(1)).value().toString());
-		BigDecimal result = arg1.add(arg2, new MathContext(Math.max(arg1.precision(), arg2.precision())));
-		return result;
+		return arg1.add(arg2, new MathContext(Math.max(arg1.precision(), arg2.precision())));
 	}
 
 	@Override
