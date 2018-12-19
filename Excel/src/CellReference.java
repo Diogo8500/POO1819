@@ -1,6 +1,7 @@
 import java.util.TreeSet;
 
 public class CellReference extends Position implements Element {
+
 	private SpreadSheet sheet;
 	
 	public CellReference(String _column, int _row, SpreadSheet _sheet) {
@@ -24,4 +25,5 @@ public class CellReference extends Position implements Element {
 	public TreeSet<Position> usedBy() {
 		return new TreeSet<Position>();
 	}
+
 }
