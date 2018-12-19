@@ -1,5 +1,9 @@
-import java.io.Serializable;
+import java.util.TreeSet;
 
-public interface Element extends Serializable {
-	public Number value();
+public interface Element {
+	Number value();
+	
+	TreeSet<Position> using();
+	
+	TreeSet<Position> usedBy();
 }

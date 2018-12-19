@@ -1,11 +1,14 @@
+import java.util.TreeSet;
 
-public class Value implements Element {
-
-	private static final long serialVersionUID = -909962329479825495L;
+public final class Value implements Element {
 	private Number value;
-
-	public Value(Number _val) {
-		value = _val;
+	
+	public Value(Number _value) {
+		setValue(_value);
+	}
+	
+	private void setValue(Number _value) {
+		value = _value;
 	}
 	
 	@Override
@@ -14,8 +17,19 @@ public class Value implements Element {
 	}
 	
 	@Override
+	public TreeSet<Position> using() {
+		return new TreeSet<Position>();
+	}
+	@Override
+	public TreeSet<Position> usedBy() {
+		return new TreeSet<Position>();
+	}
+	@Override
 	public String toString() {
 		return value.toString();
 	}
 
+	
+
+	
 }

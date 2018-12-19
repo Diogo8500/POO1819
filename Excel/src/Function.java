@@ -1,19 +1,26 @@
+import java.util.ArrayList;
+import java.util.TreeSet;
 
 public abstract class Function implements Element {
-
-	private static final long serialVersionUID = -470012339998576818L;
-	private Element[] arguments;
+	
+	private ArrayList<Object> arguments = new ArrayList<Object>(1);
+	
+	public void set(Object... _arguments) {
+		for(Object o : _arguments)
+			arguments.add(o);
+	}
+	
+	public ArrayList<Object> arguments() {
+		return arguments;
+	}
 	
 	@Override
 	public abstract Number value();
 	
-	public int setArguments(Element... args) {
-		arguments = args;
-		return args.length;
-	}
+	@Override
+	public abstract TreeSet<Position> using();	
 	
-	public Element[] arguments() {
-		return arguments;
-	}
+	@Override
+	public abstract TreeSet<Position> usedBy();
 
 }
