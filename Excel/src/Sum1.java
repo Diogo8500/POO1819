@@ -1,5 +1,5 @@
 import java.math.BigDecimal;
-import java.util.TreeSet;
+import java.util.ArrayList;
 
 public final class Sum1 extends Function {
 	
@@ -21,22 +21,20 @@ public final class Sum1 extends Function {
 			name = _argument;
 		}
 		
-		private CellReference[] rowReferences(int _argument) {
-			CellReference[] toReturn = new CellReference[1];
-			TreeSet<CellReference> aux = new TreeSet<CellReference>();
+		private ArrayList<Element> rowReferences(int _argument) {
+			ArrayList<Element> aux = new ArrayList<Element>();
 			for(SpreadSheet.Cell c : sheet) 
 				if(c.position().row() == _argument) 
 					aux.add(new CellReference(c.position().column(), _argument, sheet));
-			return aux.toArray(toReturn);
+			return aux;
 		}
 
-		private CellReference[] columnReferences(String _argument) {
-			CellReference[] toReturn = new CellReference[1];
-			TreeSet<CellReference> aux = new TreeSet<CellReference>();
+		private ArrayList<Element> columnReferences(String _argument) {
+			ArrayList<Element> aux = new ArrayList<Element>();
 			for(SpreadSheet.Cell c : sheet) 
 				if(c.position().column() == _argument) 
 					aux.add(new CellReference(_argument, c.position().row(), sheet));
-			return aux.toArray(toReturn);
+			return aux;
 		}
 
 		@Override
@@ -50,9 +48,5 @@ public final class Sum1 extends Function {
 		@Override
 		public String toString() {
 			return "=SUM " + name;
-		}
-		
-		
-		
-		
+		}		
 	}

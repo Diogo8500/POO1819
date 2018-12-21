@@ -5,10 +5,8 @@ public abstract class Function implements Element {
 	
 	private ArrayList<Element> arguments;
 
-	public void set(Element... _arguments) {
-		arguments = new ArrayList<Element>();
-		for(Element e : _arguments) 
-			arguments.add(e);
+	public void set(ArrayList<Element> _arguments) {
+		arguments = new ArrayList<Element>(_arguments);
 	}
 	
 	public ArrayList<Element> arguments() {

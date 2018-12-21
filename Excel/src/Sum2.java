@@ -1,4 +1,6 @@
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public final class Sum2 extends Function {
 
@@ -7,7 +9,9 @@ public final class Sum2 extends Function {
 	}
 	
 	private void set(Element _argument1, Element _argument2) {
-		super.set(_argument1, _argument2);
+		ArrayList<Element> toAdd = new ArrayList<Element>(2);
+		Collections.addAll(toAdd, _argument1, _argument2);
+		set(toAdd);
 	}
 	
 	@Override
