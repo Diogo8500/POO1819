@@ -37,14 +37,7 @@ public class Client {
 		if(_list.size() == 1)
 			printCell(_list.get(0));
 		else {
-			Element value = null;
-			try {
-				value = getElement(_list.subList(1, _list.size()));
-			} catch (Exception e) {
-				System.out.print("Somthing went wrong...");
-				e.printStackTrace();
-				System.exit(-1);
-			}
+			Element value = getElement(_list.subList(1, _list.size()));
 			Position p = new Position(_list.get(0));
 			excel.set(p.column(), p.row(), value);
 		}
@@ -53,7 +46,7 @@ public class Client {
 
 	public static void printSheet(SpreadSheet _sheet) {
 		int currentRow = 0;
-		for(SpreadSheet.Cell c : _sheet) {
+		for(SpreadSheet.Cell c : _sheet) 
 			if(currentRow == 0) {
 				System.out.print(c + " " + c.content() + " " + c.value());
 				currentRow = c.position().row();
@@ -65,7 +58,6 @@ public class Client {
 					System.out.print(" ");
 				System.out.print(c + " " + c.content() + " " + c.value());
 			}
-		}
 	}
 	
 	public static void printCell(String _cell) {
@@ -107,22 +99,17 @@ public class Client {
 			throw new IllegalArgumentException("Unary function " + _expression.get(0) + " does not exist!");
 	}
 
-	
-	
-	//BICHO DE 7 CABECAS FOSTE QUEBRADO
 	public static Sum2 getSum2(List<String> _arguments) {
 		if(_arguments.size() == 2)
 			return new Sum2(getElement(_arguments.subList(0, 1)), getElement(_arguments.subList(1, 2)));
-		Collections.reverse(_arguments);
-		int lastSumIndex = 0;
-		for(String s : _arguments) {
-			if(!s.equals("=SUM")) lastSumIndex++;
+		int lastSumIndex = 1;
+		for(int i=_arguments.size()-1; ; i--) {
+			if(!_arguments.get(i).contains("=")) lastSumIndex++;
 			else break;
 		}
-		Collections.reverse(_arguments);
-		if(lastSumIndex > 2)
+		if(lastSumIndex > 3)
 			return new Sum2(getElement(_arguments.subList(0, _arguments.size()-1)), getElement(_arguments.subList(_arguments.size()-1, _arguments.size()))); 
-		return new Sum2(getElement(_arguments.subList(0, _arguments.size() - lastSumIndex - 1)), getElement(_arguments.subList(_arguments.size() - lastSumIndex - 1, _arguments.size()))); 
+		return new Sum2(getElement(_arguments.subList(0, _arguments.size() - lastSumIndex)), getElement(_arguments.subList(_arguments.size() - lastSumIndex, _arguments.size()))); 
 	}
 
 	public static Function getUnaryFunction(List<String> _expression) {
