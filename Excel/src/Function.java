@@ -3,24 +3,31 @@ import java.util.TreeSet;
 
 public abstract class Function implements Element {
 	
-	private ArrayList<Object> arguments = new ArrayList<Object>(1);
+	private ArrayList<Element> arguments;
 
-	public void set(Object... _arguments) {
-		for(Object o : _arguments)
-			arguments.add(o);
+	public void set(Element... _arguments) {
+		arguments = new ArrayList<Element>();
+		for(Element e : _arguments) 
+			arguments.add(e);
 	}
 	
-	public ArrayList<Object> arguments() {
+	public ArrayList<Element> arguments() {
 		return arguments;
 	}
 	
 	@Override
+	public TreeSet<Position> using(){
+		TreeSet<Position> toReturn = new TreeSet<Position>();
+		for(Element e : arguments)
+			toReturn.addAll(e.using());
+		return toReturn;
+	}
+	
+	@Override
+	public TreeSet<Position> usedBy(){
+		return new TreeSet<Position>();
+	}
+	
+	@Override
 	public abstract String value();
-	
-	@Override
-	public abstract TreeSet<Position> using();	
-	
-	@Override
-	public abstract TreeSet<Position> usedBy();
-
 }

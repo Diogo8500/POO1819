@@ -1,13 +1,27 @@
-//import java.util.Objects;
-
 public class Position implements Comparable<Position> {
 	
 	private String column;
 	private int row;
 	
-	public Position (String _column, int _row) {
+	public Position(String _column, int _row) {
 		setColumn(_column);
 		setRow(_row);
+	}
+	
+	public Position(String _coordinate) {
+		if(!_coordinate.matches("^[A-Z]+[1-9]+$")) 
+			throw new IllegalArgumentException("Wrong formating: " + _coordinate + "!");
+		String _column = "";
+		int _row = 0;
+		for(int i=0; i<_coordinate.length(); i++) {
+			if(!Character.isAlphabetic(_coordinate.charAt(i))) {
+				_column = _coordinate.substring(0, i);
+				_row = Integer.parseInt(_coordinate.substring(i));
+				break;
+			}
+		}
+		column = _column;
+		row = _row;
 	}
 	
 	private void setColumn(String _column) {

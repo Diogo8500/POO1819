@@ -58,7 +58,7 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 			Position actualPosition = it.next();
 			Cell actualCell = sheetMap.get(actualPosition);
 			actualCell.usedBy.remove(toRemovePosition);
-			if(Double.parseDouble(actualCell.value()) == 0 && actualCell.usedBy.isEmpty() && actualCell.using.isEmpty())
+			if(actualCell.failedRemoval && actualCell.usedBy.isEmpty()/* && actualCell.using.isEmpty()*/)
 				sheetMap.remove(actualPosition);
 			it.remove();	
 		}
@@ -68,6 +68,7 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 		}
 		else {
 			sheetMap.get(toRemovePosition).setContent(new Value("0"));
+			sheetMap.get(toRemovePosition).failedRemoval = true;
 			return 0;
 		}	
 	}
@@ -90,23 +91,29 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 		return removed;
 	}
 	
+	public boolean hasCell(String _column, int _row) {
+		return sheetMap.containsKey(new Position(_column, _row));
+	}
+	
 	@Override
 	public Iterator<Cell> iterator() {
 		return sheetMap.values().iterator();
 	}
 	
 	@SuppressWarnings("unlikely-arg-type")
-	public class Cell implements Element {
+	public class Cell /*implements Element*/ {
 		
 		private Position position;
 		private Element content;
 		private TreeSet<Position> usedBy, using;
+		private boolean failedRemoval;
 		
 		public Cell(String _column, int _row, Element _content){
 			setPosition(_column, _row);
 			setContent(_content);
 			usedBy = new TreeSet<Position>();
 			using = new TreeSet<Position>();
+			failedRemoval = false;
 		}
 		
 		public void setPosition(String _column, int _row) {
@@ -116,8 +123,6 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 		public void setContent(Element _content) {
 			if(_content instanceof CellReference && !sheetMap.containsKey(_content))
 				throw new IllegalArgumentException("Cell " + _content + " does not exist!");
-			if(_content instanceof Cell)
-				throw new IllegalArgumentException();
 			content = _content;
 		}
 		
@@ -129,7 +134,6 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 			return content;
 		}
 
-		@Override
 		public String value() {
 			if(content instanceof CellReference)
 				return sheetMap.get(content).value();
@@ -137,12 +141,10 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 				return content.value();
 		}
 	
-		@Override
 		public TreeSet<Position> using() {
 			return using;
 		}
 		
-		@Override
 		public TreeSet<Position> usedBy() {
 			return usedBy;
 		}

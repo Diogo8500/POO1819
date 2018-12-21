@@ -1,81 +1,58 @@
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.TreeSet;
 
 public final class Sum1 extends Function {
 	
 		private SpreadSheet sheet;
+		private String name;
 
 		public Sum1(String _argument, SpreadSheet _sheet) {
-			set(_argument);
 			sheet = _sheet;
+			set(_argument);
 		}
 		
 		public void set(String _argument) {
-			if(!_argument.matches("^[A-Z]+$") && !_argument.matches("^[1-9]+$"))
+			if(_argument.matches("^[A-Z]+$")) 
+				super.set(columnReferences(_argument));
+			else if(_argument.matches("^[1-9]+$"))
+				super.set(rowReferences(Integer.parseInt(_argument)));
+			else 
 				throw new IllegalArgumentException("Argument must either be a row or column!");
-			super.set(_argument);
+			name = _argument;
 		}
 		
+		private CellReference[] rowReferences(int _argument) {
+			CellReference[] toReturn = new CellReference[1];
+			TreeSet<CellReference> aux = new TreeSet<CellReference>();
+			for(SpreadSheet.Cell c : sheet) 
+				if(c.position().row() == _argument) 
+					aux.add(new CellReference(c.position().column(), _argument, sheet));
+			return aux.toArray(toReturn);
+		}
+
+		private CellReference[] columnReferences(String _argument) {
+			CellReference[] toReturn = new CellReference[1];
+			TreeSet<CellReference> aux = new TreeSet<CellReference>();
+			for(SpreadSheet.Cell c : sheet) 
+				if(c.position().column() == _argument) 
+					aux.add(new CellReference(_argument, c.position().row(), sheet));
+			return aux.toArray(toReturn);
+		}
+
 		@Override
 		public String value() {
-			String argument = (String)arguments().get(0);
-			if(argument.matches("^[A-Z]+$"))
-				return calculateColumn(argument);
-			return calculateRow(Integer.parseInt(argument));
+			BigDecimal toReturn = new BigDecimal(0);
+			for(Element e : arguments())
+				toReturn = toReturn.add(new BigDecimal(e.value()));
+			return toReturn.toString();
 		}
 		
 		@Override
 		public String toString() {
-			return "=SUM " + arguments().get(0);
+			return "=SUM " + name;
 		}
 		
-		private String calculateColumn(String _column) {
-			BigDecimal result = new BigDecimal(0);
-			for(SpreadSheet.Cell c : sheet) 
-				if(c.position().column() == _column) {
-					BigDecimal toAdd = new BigDecimal(c.value());
-					result = result.add(toAdd, new MathContext(Math.max(result.precision(), toAdd.precision())));
-				}
-			return result.toString();
-		}
 		
-		private String calculateRow(int _row) {
-			BigDecimal result = new BigDecimal(0);
-			for(SpreadSheet.Cell c : sheet) 
-				if(c.position().row() == _row) {
-					BigDecimal toAdd = new BigDecimal(c.value());
-					result = result.add(toAdd, new MathContext(Math.max(result.precision(), toAdd.precision())));
-				}
-			return result.toString();
-		}
-
-		@Override
-		public TreeSet<Position> using() {
-			String argument = (String)arguments().get(0);
-			if(argument.matches("^[A-Z]+$"))
-				return columnDependencies(argument);
-			return rowDependencies(Integer.parseInt(argument));
-		}
 		
-		private TreeSet<Position> columnDependencies(String _argument){
-			TreeSet<Position> toReturn = new TreeSet<Position>();
-			for(SpreadSheet.Cell c : sheet)
-				if(c.position().column() == _argument)
-					toReturn.add(c.position());
-			return toReturn;
-		}
 		
-		private TreeSet<Position> rowDependencies(int _argument){
-			TreeSet<Position> toReturn = new TreeSet<Position>();
-			for(SpreadSheet.Cell c : sheet)
-				if(c.position().row() == _argument)
-					toReturn.add(c.position());
-			return toReturn;
-		}
-
-		@Override
-		public TreeSet<Position> usedBy() {
-			return new TreeSet<Position>();
-		}
 	}

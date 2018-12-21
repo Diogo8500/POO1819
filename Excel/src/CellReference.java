@@ -5,6 +5,15 @@ public class CellReference extends Position implements Element {
 	
 	public CellReference(String _column, int _row, SpreadSheet _sheet) {
 		super(_column, _row);
+		if(!_sheet.hasCell(_column, _row))
+			throw new IllegalArgumentException("Cell " + _column + _row + " does not exist!");
+		sheet = _sheet;
+	}
+	
+	public CellReference(String _coordinate, SpreadSheet _sheet) {
+		super(_coordinate);
+		if(!_sheet.hasCell(super.column(), super.row()))
+			throw new IllegalArgumentException("Cell " + super.column() + super.row() + " does not exist!");
 		sheet = _sheet;
 	}
 	
