@@ -22,6 +22,7 @@ public final class Sum1 extends Function {
 		 */
 		public Sum1(String _argument, SpreadSheet _sheet) {
 			sheet = _sheet;
+			name = _argument;
 			set(_argument);
 		}
 		
@@ -32,7 +33,6 @@ public final class Sum1 extends Function {
 				set(rowReferences(Integer.parseInt(_argument)));
 			else 
 				throw new IllegalArgumentException("Argument must either be a row or column!");
-			name = _argument;
 		}
 		
 		private ArrayList<Element> rowReferences(int _argument) {
@@ -53,6 +53,7 @@ public final class Sum1 extends Function {
 
 		@Override
 		public String value() {
+			set(name);
 			BigDecimal toReturn = new BigDecimal(0);
 			for(Element e : arguments())
 				toReturn = toReturn.add(new BigDecimal(e.value()));

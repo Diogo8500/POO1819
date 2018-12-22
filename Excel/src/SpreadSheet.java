@@ -91,7 +91,9 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 	public int remove(String _column, int _row) {
 		Position toRemovePosition = new Position(_column, _row);
 		if(!sheetMap.containsKey(toRemovePosition))
-			return -1;	
+			return -1;
+		if(sheetMap.get(toRemovePosition).content instanceof Sum1)
+			sheetMap.get(toRemovePosition).content.value();
 		Iterator<Position> it = sheetMap.get(toRemovePosition).using.iterator();
 		while(it.hasNext()) {
 			Position actualPosition = it.next();

@@ -93,8 +93,9 @@ public class Client {
 	
 	
 	public static Function getBinaryFunction(List<String> _expression) {
-		if(_expression.get(0).equals("=SUM"))
+		if(_expression.get(0).equals("=SUM")) {
 			return getSum2(_expression.subList(1, _expression.size()));
+		}
 		else 
 			throw new IllegalArgumentException("Unary function " + _expression.get(0) + " does not exist!");
 	}
@@ -102,14 +103,18 @@ public class Client {
 	public static Sum2 getSum2(List<String> _arguments) {
 		if(_arguments.size() == 2)
 			return new Sum2(getElement(_arguments.subList(0, 1)), getElement(_arguments.subList(1, 2)));
+		if(_arguments.size() == 3)
+			if(_arguments.get(0).contains("="))
+				return new Sum2(getElement(_arguments.subList(0, 2)), getElement(_arguments.subList(2, 3)));
+			else
+				return new Sum2(getElement(_arguments.subList(0, 1)), getElement(_arguments.subList(1, 3)));
 		int lastSumIndex = 1;
-		for(int i=_arguments.size()-1; ; i--) {
-			if(!_arguments.get(i).contains("=")) lastSumIndex++;
-			else break;
-		}
+		for(int i=_arguments.size()-1; ; i--)
+			if(!_arguments.get(i).contains("=")) lastSumIndex++; else break;
+		
 		if(lastSumIndex > 3)
 			return new Sum2(getElement(_arguments.subList(0, _arguments.size()-1)), getElement(_arguments.subList(_arguments.size()-1, _arguments.size()))); 
-		return new Sum2(getElement(_arguments.subList(0, _arguments.size() - lastSumIndex)), getElement(_arguments.subList(_arguments.size() - lastSumIndex, _arguments.size()))); 
+		return new Sum2(getElement(_arguments.subList(0, _arguments.size() - lastSumIndex)), getElement(_arguments.subList(_arguments.size() - lastSumIndex, _arguments.size())));  
 	}
 
 	public static Function getUnaryFunction(List<String> _expression) {
