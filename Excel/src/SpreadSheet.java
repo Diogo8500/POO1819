@@ -6,7 +6,7 @@ import java.util.TreeSet;
 /**
  * Basic implementation of a spreadsheet. It contains a set of {@link Cell}s defined
  * by their {@link Position}s which
- * can hold various types of elements/values ({@link Element}) and comunicate between
+ * can hold various types of elements/values ({@link Element}) and communicate between
  * themselves.
  * It supports the adding and removing of single cells and the removal of entire rows 
  * or columns at once.
@@ -82,7 +82,7 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 	
 	/**
 	 * Removes the Cell at _column, _row location. If the cell is in use by some other cell
-	 * it's value is set to 0, until no longer needed or overridden by the user.
+	 * it's value is set to 0.
 	 * @param _column column of the cell to remove
 	 * @param _row row of the cell to remove
 	 * @return -1 if the cell does not exist, 1 if removed with success, 0 if in use so it's
@@ -92,15 +92,14 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 		Position toRemovePosition = new Position(_column, _row);
 		if(!sheetMap.containsKey(toRemovePosition))
 			return -1;
-		if(sheetMap.get(toRemovePosition).content instanceof Sum1)
-			sheetMap.get(toRemovePosition).content.value();
+		sheetMap.get(toRemovePosition).content.value();
 		Iterator<Position> it = sheetMap.get(toRemovePosition).using.iterator();
 		while(it.hasNext()) {
 			Position actualPosition = it.next();
 			Cell actualCell = sheetMap.get(actualPosition);
 			actualCell.usedBy.remove(toRemovePosition);
-			if(actualCell.failedRemoval && actualCell.usedBy.isEmpty()/* && actualCell.using.isEmpty()*/)
-				sheetMap.remove(actualPosition);
+			/*if(actualCell.failedRemoval && actualCell.usedBy.isEmpty())
+				sheetMap.remove(actualPosition);*/
 			it.remove();	
 		}
 		if(sheetMap.get(toRemovePosition).usedBy.isEmpty() || forceRemoveFlag) {
@@ -109,7 +108,7 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 		}
 		else {
 			sheetMap.get(toRemovePosition).setContent(new Value("0"));
-			sheetMap.get(toRemovePosition).failedRemoval = true;
+			//sheetMap.get(toRemovePosition).failedRemoval = true;
 			return 0;
 		}	
 	}
@@ -179,7 +178,7 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 		private Position position;
 		private Element content;
 		private TreeSet<Position> usedBy, using;
-		private boolean failedRemoval;
+		//private boolean failedRemoval;
 		
 		/**
 		 * Creates a new cell with _column, _row location with the specified {@link Element}.
@@ -192,7 +191,7 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 			setContent(_content);
 			usedBy = new TreeSet<Position>();
 			using = new TreeSet<Position>();
-			failedRemoval = false;
+			//failedRemoval = false;
 		}
 		
 		private void setPosition(String _column, int _row) {
