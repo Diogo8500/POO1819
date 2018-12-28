@@ -34,8 +34,6 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 	
 	//Add will return false if cell already exists
 	private boolean add(String _column, int _row, Element _element) {
-		if(_element instanceof Cell)
-			throw new IllegalArgumentException("Invalid element!");
 		Position toAdd = new Position(_column, _row);
 		if(sheetMap.containsKey(toAdd))
 			return false;
@@ -55,8 +53,7 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 	 * exist.
 	 */
 	public Cell get(String _column, int _row) {
-		Cell toReturn = sheetMap.get(new Position(_column, _row));
-		return toReturn;
+		return sheetMap.get(new Position(_column, _row));
 	}
 	
 	/**
@@ -82,7 +79,7 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 	
 	/**
 	 * Removes the Cell at _column, _row location. If the cell is in use by some other cell
-	 * it's value is set to 0.
+	 * it's value is set to 0, being removed later when no longer needed
 	 * @param _column column of the cell to remove
 	 * @param _row row of the cell to remove
 	 * @return -1 if the cell does not exist, 1 if removed with success, 0 if in use so it's
@@ -98,8 +95,8 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 			Position actualPosition = it.next();
 			Cell actualCell = sheetMap.get(actualPosition);
 			actualCell.usedBy.remove(toRemovePosition);
-			/*if(actualCell.failedRemoval && actualCell.usedBy.isEmpty())
-				sheetMap.remove(actualPosition);*/
+			if(actualCell.failedRemoval && actualCell.usedBy.isEmpty())
+				sheetMap.remove(actualPosition);
 			it.remove();	
 		}
 		if(sheetMap.get(toRemovePosition).usedBy.isEmpty() || forceRemoveFlag) {
@@ -108,7 +105,7 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 		}
 		else {
 			sheetMap.get(toRemovePosition).setContent(new Value("0"));
-			//sheetMap.get(toRemovePosition).failedRemoval = true;
+			sheetMap.get(toRemovePosition).failedRemoval = true;
 			return 0;
 		}	
 	}
@@ -124,7 +121,7 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 		int removed = 0;
 		ArrayList<Position> toCheck = new ArrayList<Position>(sheetMap.keySet());
 		for(Position p : toCheck) 
-			if(p.column() == _column)
+			if(p.column().equals(_column))
 				removed += remove(_column, p.row());
 		return removed;
 	}
@@ -178,7 +175,7 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 		private Position position;
 		private Element content;
 		private TreeSet<Position> usedBy, using;
-		//private boolean failedRemoval;
+		private boolean failedRemoval;
 		
 		/**
 		 * Creates a new cell with _column, _row location with the specified {@link Element}.
@@ -191,7 +188,7 @@ public class SpreadSheet implements Iterable<SpreadSheet.Cell> {
 			setContent(_content);
 			usedBy = new TreeSet<Position>();
 			using = new TreeSet<Position>();
-			//failedRemoval = false;
+			failedRemoval = false;
 		}
 		
 		private void setPosition(String _column, int _row) {

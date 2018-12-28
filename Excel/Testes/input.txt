@@ -1,7 +1,9 @@
 A1 1
 A2 2
 A3 3
-F4 =SUM A
-d* A1
-B1 =SUM 4
+A4 4
+A5 =SUM =SUM =SUM =SUM =SUM =SUM B 4 4 4 4 4
+A6 =SUM A5 A1
+B1 45
+d* B
 p*
