@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Client {
 	private static SpreadSheet excel = new SpreadSheet();
 	
-	public static void interpreter(String _input) {
+	public static void interpreter(String _input) throws Exception {
 		String[] temp = _input.split(" ");
 		ArrayList<String> tokens = new ArrayList<String>(temp.length);
 		Collections.addAll(tokens, temp);
@@ -33,7 +33,7 @@ public class Client {
 			deleteCell(_list.get(1));
 	}
 	
-	public static void cellOptions(List<String> _list) {
+	public static void cellOptions(List<String> _list) throws Exception {
 		if(_list.size() == 1)
 			printCell(_list.get(0));
 		else {
@@ -79,7 +79,7 @@ public class Client {
 		excel.remove(_column);
 	}
 	
-	public static Element getElement(List<String> _expression) {
+	public static Element getElement(List<String> _expression) throws Exception {
 		if(_expression.size() == 1)
 			if(_expression.get(0).matches("^[A-Z]+[0-9]+$")) 
 				return new CellReference(_expression.get(0), excel);
@@ -92,44 +92,36 @@ public class Client {
 	}
 	
 	
-	public static Function getBinaryFunction(List<String> _expression) {
-		if(_expression.get(0).equals("=SUM")) {
-			return getSum2(_expression.subList(1, _expression.size()));
-		}
-		else 
-			throw new IllegalArgumentException("Unary function " + _expression.get(0) + " does not exist!");
-	}
-
-	public static Sum2 getSum2(List<String> _arguments) {
-		if(_arguments.size() == 2)
-			return new Sum2(getElement(_arguments.subList(0, 1)), getElement(_arguments.subList(1, 2)));
-		if(_arguments.size() == 3)
-			if(_arguments.get(0).contains("="))
-				return new Sum2(getElement(_arguments.subList(0, 2)), getElement(_arguments.subList(2, 3)));
-			else
-				return new Sum2(getElement(_arguments.subList(0, 1)), getElement(_arguments.subList(1, 3)));
-		int lastSumIndex = 1;
-		for(int i=_arguments.size()-1; ; i--)
-			if(!_arguments.get(i).contains("=")) lastSumIndex++; else break;
-		
-		if(lastSumIndex > 3)
-			return new Sum2(getElement(_arguments.subList(0, _arguments.size()-1)), getElement(_arguments.subList(_arguments.size()-1, _arguments.size()))); 
-		return new Sum2(getElement(_arguments.subList(0, _arguments.size() - lastSumIndex)), getElement(_arguments.subList(_arguments.size() - lastSumIndex, _arguments.size())));  
-	}
-
-	public static Function getUnaryFunction(List<String> _expression) {
-		if(_expression.get(0).equals("=SUM"))
-			return getSum1(_expression.get(1));
-		else 
-			throw new IllegalArgumentException("Unary function " + _expression.get(0) + " does not exist!");
-	}
+	public static Function getBinaryFunction(List<String> _expression) throws Exception {
+		String aux = _expression.get(0);
+		String name = aux.subSequence(1, aux.length()).toString();
+		int size = _expression.size();
+		FunctionType functionToReturn = FunctionType.valueOf(name.concat("2"));
 	
-	public static Sum1 getSum1(String _argument) {
-		return new Sum1(_argument, excel);
+		if(size == 3)
+			return (Function) functionToReturn.constructor().newInstance(getElement(_expression.subList(1, 2)), getElement(_expression.subList(2, 3)));
+		if(_expression.get(size-2).contains("="))
+			return (Function) functionToReturn.constructor().newInstance(getElement(_expression.subList(1, size-2)), getElement(_expression.subList(size-2, size)));
+		if(_expression.get(size-3).contains("=")) {
+			int num = 0;
+			for(String s : _expression)
+				if(s.contains("=")) num++;
+			if(num%2 != 0) //impar
+				return (Function) functionToReturn.constructor().newInstance(getElement(_expression.subList(1, size-3)), getElement(_expression.subList(size-3, size)));
+		}			
+		return (Function) functionToReturn.constructor().newInstance(getElement(_expression.subList(1, size-1)), getElement(_expression.subList(size-1, size)));
 	}
 
-	public static void main(String[] args) {
+	public static Function getUnaryFunction(List<String> _expression) throws Exception {
+		String aux = _expression.get(0);
+		String name = aux.subSequence(1, aux.length()).toString();
 		
+		FunctionType functionToReturn = FunctionType.valueOf(name.concat("1"));
+		
+		return (Function) functionToReturn.constructor().newInstance(_expression.get(1), excel);
+	}
+
+	public static void main(String[] args) throws Exception {
 		Scanner in = new Scanner(System.in);
 		while(in.hasNextLine()) {
 			interpreter(in.nextLine());
