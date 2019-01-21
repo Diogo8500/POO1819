@@ -103,10 +103,7 @@ public class Client {
 		if(_expression.get(size-2).contains("="))
 			return (Function) functionToReturn.constructor().newInstance(getElement(_expression.subList(1, size-2)), getElement(_expression.subList(size-2, size)));
 		if(_expression.get(size-3).contains("=")) {
-			int num = 0;
-			for(String s : _expression)
-				if(s.contains("=")) num++;
-			if(num%2 != 0) //impar
+			if(!_expression.get(size-4).contains("="))
 				return (Function) functionToReturn.constructor().newInstance(getElement(_expression.subList(1, size-3)), getElement(_expression.subList(size-3, size)));
 		}			
 		return (Function) functionToReturn.constructor().newInstance(getElement(_expression.subList(1, size-1)), getElement(_expression.subList(size-1, size)));

@@ -1,10 +1,11 @@
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Mult2 extends Function {
+public class Div2 extends Function {
 
-	public Mult2(Element _argument1, Element _argument2) {
+	public Div2(Element _argument1, Element _argument2) {
 		set(_argument1, _argument2);
 	}
 	
@@ -17,14 +18,15 @@ public class Mult2 extends Function {
 	@Override
 	public String value() {
 		BigDecimal result = new BigDecimal(arguments().get(0).value());
-		return result.multiply(new BigDecimal(arguments().get(1).value())).toString();
+		return result.divide(new BigDecimal(arguments().get(1).value()), RoundingMode.HALF_UP).toString();
 	}
 	
 	@Override
 	public String toString() {
-		String toReturn = "=MULT";
+		String toReturn = "=DIV";
 		for(Element e : arguments())
 			toReturn = toReturn.concat(" " + e);
 		return toReturn;
 	}
+
 }
